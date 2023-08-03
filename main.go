@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"net/http"
+
+	"github.com/luigiMinardi/alurachallenge-backend-7/routes"
 )
 
 func main() {
     fmt.Println("Starting Service")
-    log.Fatal(http.ListenAndServe(":8000", nil))
+    routes.HandleRequest()
 }
