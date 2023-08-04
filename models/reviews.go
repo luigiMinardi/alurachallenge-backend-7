@@ -16,7 +16,11 @@ func CreateReview(name, review string, image []byte) {
     if err != nil {
         panic(err.Error())
     }
+    
+    _, err2 := sqlToInsert.Exec(name, review, image)
+    if err2 != nil {
+        panic(err.Error())
+    }
 
-    sqlToInsert.Exec(name, review, image)
     defer db.Close()
 }
