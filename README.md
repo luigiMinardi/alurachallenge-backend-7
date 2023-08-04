@@ -67,3 +67,13 @@ You should see something like that:
 
 Now you can quit the psql with `exit`.
 
+# How to start the project
+
+First you need to connect your db to the project, to do so, copy and rename the `db/db.go.example`
+```bash
+cp db/db.go.example db/db.go
+```
+Then in the `dsn` variable change the `your_postgres_user` to your user and `your_postgres_passwd` to your password.
+> **The user and password is related to the database and not your OS user**
+> The user will most likely be the same as the one printed as `owner` when you ran the `\dt` command.
+

@@ -1,0 +1,12 @@
+package db
+
+import "database/sql"
+
+func ConnectWithDB() *sql.DB {
+    dsn := "user=your_postgres_user dbname=alurachallenge7 password=your_postgres_passwd host=localhost sslmode=disable"
+    db, err := sql.Open("postgres", dsn)
+    if err != nil {
+        panic(err.Error())
+    }
+    return db
+}
