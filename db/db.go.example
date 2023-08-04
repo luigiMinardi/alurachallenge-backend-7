@@ -1,6 +1,9 @@
 package db
 
-import "database/sql"
+import (
+    "database/sql"
+    _ "github.com/lib/pq"
+)
 
 func ConnectWithDB() *sql.DB {
     dsn := "user=your_postgres_user dbname=alurachallenge7 password=your_postgres_passwd host=localhost sslmode=disable"
