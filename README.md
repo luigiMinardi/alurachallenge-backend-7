@@ -36,7 +36,34 @@ createdb alurachallenge7
 
 Enter your db with:
 ```bash
-pysql -d alurachallenge7
+psql -d alurachallenge7
 ```
 
+Create extension to use images with lo:
+```sql
+create extension lo;
+```
+
+Create table with:
+```sql
+create table reviews (
+id serial primary key,
+name varchar,
+review varchar,
+image lo);
+```
+
+Check if everything worked:
+```bash
+\dt
+```
+You should see something like that:
+```
+        List of relations
+ Schema |  Name   | Type  | Owner 
+--------+---------+-------+-------
+ public | reviews | table | your_user
+```
+
+Now you can quit the psql with `exit`.
 
