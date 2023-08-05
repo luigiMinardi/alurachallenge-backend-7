@@ -15,5 +15,6 @@ func HandleRequest() {
        io.WriteString(rw, `{"message": "hello world.."}`)
     })
     r.HandleFunc("/reviews", controllers.AddReview)
+    r.Handle("/reviews/", http.StripPrefix("/reviews/", http.HandlerFunc(controllers.EditReview)))
     log.Fatal(http.ListenAndServe(":8000", middleware.CORSMiddleware(middleware.ContentTypeMiddleware(r))))
 }

@@ -25,7 +25,7 @@ func AddReview(w http.ResponseWriter, r *http.Request) {
 }
 
 func EditReview(w http.ResponseWriter, r *http.Request) {
-    id := r.URL.Query().Get("id")
+    id := r.URL.Path
 
     idToInt, err := strconv.Atoi(id)
     if err != nil {

@@ -25,7 +25,7 @@ func CreateReview(name, review string, image string) {
 func UpdateReview(id int, name, review string, image string) {
     db := db.ConnectWithDB()
 
-    _, err := db.Exec("update products set name=$1, review=$2, image=$3 where id=$4", name, review, image, id)
+    _, err := db.Exec("update reviews set name=$1, review=$2, image=$3 where id=$4", name, review, image, id)
     if err != nil {
         panic(err)
     }
