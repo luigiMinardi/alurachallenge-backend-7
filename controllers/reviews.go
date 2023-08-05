@@ -13,7 +13,7 @@ func AddReview(w http.ResponseWriter, r *http.Request) {
     json.NewDecoder(r.Body).Decode(&data)
     models.CreateReview(data.Name, data.Review, data.Image)
 
-    w.WriteHeader(http.StatusOK)
+    w.WriteHeader(http.StatusCreated)
 
     resp := make(map[string]string)
     resp["message"] = "Everything worked as expected"
@@ -34,6 +34,10 @@ func EditReview(w http.ResponseWriter, r *http.Request) {
 
     var data models.Review
     json.NewDecoder(r.Body).Decode(&data)
+    data.Id = idToInt
 
     models.UpdateReview(idToInt, data.Name, data.Review, data.Image)
+
+    w.WriteHeader(http.StatusOK)
+    json.NewEncoder(w).Encode(data)
 }
