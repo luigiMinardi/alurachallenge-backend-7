@@ -50,7 +50,7 @@ create table reviews (
 id serial primary key,
 name varchar,
 review varchar,
-image lo);
+image varchar);
 ```
 
 Check if everything worked:

@@ -1,26 +1,28 @@
 package models
 
-import "github.com/luigiMinardi/alurachallenge-backend-7/db"
+import (
+	"github.com/luigiMinardi/alurachallenge-backend-7/db"
+)
 
 type Review struct {
     Id      int     `json:"id"`
     Name    string  `json:"name"`
     Review  string  `json:"review"`
-    Image   []byte  `json:"image"`
+    Image   string  `json:"image"`
 }
 
-func CreateReview(name, review string, image []byte) {
+func CreateReview(name string, review string, image string) {
     db := db.ConnectWithDB()
-
-    sqlToInsert, err := db.Prepare("insert into reviews(name, review, image) values($1, $2, $3)")
+    err := db.Ping()
     if err != nil {
-        panic(err.Error())
-    }
-    
-    _, err2 := sqlToInsert.Exec(name, review, image)
-    if err2 != nil {
-        panic(err.Error())
+        panic(err)
     }
 
+    _, err = db.Exec("insert into reviews(name, review, image) values($1, $2, $3)", name, review, image)
+    if err != nil {
+        panic(err)
+    }
+
+    
     defer db.Close()
 }
