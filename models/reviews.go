@@ -1,6 +1,7 @@
 package models
 
 import (
+
 	"github.com/luigiMinardi/alurachallenge-backend-7/db"
 )
 
@@ -31,4 +32,23 @@ func UpdateReview(id int, name, review string, image string) {
     }
 
     defer db.Close()
+}
+
+func ShowReview(id int) Review {
+    db := db.ConnectWithDB()
+    
+    query, err := db.Query("select * from reviews where id=$1", id)
+    if err != nil {
+        panic(err)
+    }
+    var review Review
+
+    query.Next()
+    err2 := query.Scan(&review.Id, &review.Name, &review.Review, &review.Image)
+    if err2 != nil {
+        panic(err)
+    }
+
+    defer db.Close()
+    return review
 }

@@ -44,3 +44,18 @@ func EditReview(w http.ResponseWriter, r *http.Request) {
     w.WriteHeader(http.StatusOK)
     json.NewEncoder(w).Encode(data)
 }
+
+func GetReview(w http.ResponseWriter, r *http.Request) {
+    path := strings.Split(r.URL.Path, "/")[1:]
+    id := path[len(path)-1]
+
+    idToInt, err := strconv.Atoi(id)
+    if err != nil {
+        panic(err)
+    }
+
+    var data models.Review = models.ShowReview(idToInt)
+
+    w.WriteHeader(http.StatusOK)
+    json.NewEncoder(w).Encode(data)
+}

@@ -23,8 +23,9 @@ func Router(w http.ResponseWriter, r *http.Request) {
 
     var h http.HandlerFunc
     switch {
-    case p[0] == "reviews" && r.Method == "GET":
+    case p[0] == "reviews" && p[1] != "" && r.Method == "GET":
         log.Println("reviews - GET")
+        h = controllers.GetReview
     case p[0] == "reviews" && r.Method == "POST":
         log.Println("reviews - POST")
         h = controllers.AddReview
