@@ -3,6 +3,8 @@ package controllers
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
+
 	"strconv"
 
 	"github.com/luigiMinardi/alurachallenge-backend-7/models"
@@ -25,7 +27,8 @@ func AddReview(w http.ResponseWriter, r *http.Request) {
 }
 
 func EditReview(w http.ResponseWriter, r *http.Request) {
-    id := r.URL.Path
+    path := strings.Split(r.URL.Path, "/")[1:]
+    id := path[len(path)-1]
 
     idToInt, err := strconv.Atoi(id)
     if err != nil {
