@@ -52,3 +52,14 @@ func ShowReview(id int) Review {
     defer db.Close()
     return review
 }
+
+func RemoveReview(id int) {
+    db := db.ConnectWithDB()
+
+    _, err := db.Exec("delete from reviews where id=$1", id)
+    if err != nil {
+        panic(err)
+    }
+
+    defer db.Close()
+}

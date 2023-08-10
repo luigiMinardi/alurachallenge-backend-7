@@ -32,6 +32,8 @@ func Router(w http.ResponseWriter, r *http.Request) {
     case p[0] == "reviews" && p[1] != "" && r.Method == "PUT":
         log.Println("reviews - PUT")
         h = controllers.EditReview
+    case p[0] == "reviews" && p[1] != "" && r.Method == "DELETE":
+        h = controllers.DeleteReview
     default:
         http.NotFound(w,r)
         return

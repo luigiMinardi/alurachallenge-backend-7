@@ -59,3 +59,24 @@ func GetReview(w http.ResponseWriter, r *http.Request) {
     w.WriteHeader(http.StatusOK)
     json.NewEncoder(w).Encode(data)
 }
+
+func DeleteReview(w http.ResponseWriter, r* http.Request) {
+    path := strings.Split(r.URL.Path, "/")[1:]
+    id := path[len(path)-1]
+
+    idToInt, err := strconv.Atoi(id)
+    if err != nil {
+        panic(err)
+    }
+
+    models.RemoveReview(idToInt)
+    w.WriteHeader(http.StatusOK)
+
+    resp := make(map[string]string)
+    resp["message"] = "Everything worked as expected"
+    response, err := json.Marshal(resp)
+    if err != nil {
+        panic(err)
+    }
+    w.Write(response)
+}
