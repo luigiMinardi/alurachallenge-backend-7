@@ -63,3 +63,29 @@ func RemoveReview(id int) {
 
     defer db.Close()
 }
+
+func GetThreeRandomReviews() ([]Review, error) {
+    db := db.ConnectWithDB()
+
+    query, err := db.Query("select * from reviews order by random() limit 3")
+    if err != nil {
+        return nil, err
+    }
+    defer db.Close()
+
+    var reviews []Review
+
+    for query.Next() {
+        var review Review
+        if err := query.Scan(&review.Id, &review.Name,
+            &review.Review, &review.Image); err != nil {
+                return reviews, err
+            }
+        reviews = append(reviews, review)
+    }
+
+    if err = query.Err(); err != nil {
+        return reviews, err
+    }
+    return reviews, nil
+}

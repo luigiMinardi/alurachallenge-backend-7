@@ -60,7 +60,7 @@ func GetReview(w http.ResponseWriter, r *http.Request) {
     json.NewEncoder(w).Encode(data)
 }
 
-func DeleteReview(w http.ResponseWriter, r* http.Request) {
+func DeleteReview(w http.ResponseWriter, r *http.Request) {
     path := strings.Split(r.URL.Path, "/")[1:]
     id := path[len(path)-1]
 
@@ -79,4 +79,15 @@ func DeleteReview(w http.ResponseWriter, r* http.Request) {
         panic(err)
     }
     w.Write(response)
+}
+
+func GetReviewsHome(w http.ResponseWriter, r *http.Request) {
+
+    data, err := models.GetThreeRandomReviews()
+    if err != nil {
+        panic(err)
+    }
+
+    w.WriteHeader(http.StatusOK)
+    json.NewEncoder(w).Encode(data)
 }

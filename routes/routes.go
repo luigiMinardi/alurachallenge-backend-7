@@ -34,6 +34,9 @@ func Router(w http.ResponseWriter, r *http.Request) {
         h = controllers.EditReview
     case p[0] == "reviews" && p[1] != "" && r.Method == "DELETE":
         h = controllers.DeleteReview
+    case p[0] == "reviews-home" && r.Method == "GET":
+        log.Println("reviews home - GET")
+        h = controllers.GetReviewsHome
     default:
         http.NotFound(w,r)
         return
