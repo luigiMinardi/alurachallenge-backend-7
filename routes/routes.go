@@ -23,20 +23,20 @@ func Router(w http.ResponseWriter, r *http.Request) {
 
     var h http.HandlerFunc
     switch {
-    case p[0] == "reviews" && p[1] != "" && r.Method == "GET":
-        log.Println("reviews - GET")
-        h = controllers.GetReview
-    case p[0] == "reviews" && r.Method == "POST":
-        log.Println("reviews - POST")
-        h = controllers.AddReview
-    case p[0] == "reviews" && p[1] != "" && r.Method == "PUT":
-        log.Println("reviews - PUT")
-        h = controllers.EditReview
-    case p[0] == "reviews" && p[1] != "" && r.Method == "DELETE":
-        h = controllers.DeleteReview
     case p[0] == "reviews-home" && r.Method == "GET":
         log.Println("reviews home - GET")
         h = controllers.GetReviewsHome
+    case p[0] == "reviews" && r.Method == "POST":
+        log.Println("reviews - POST")
+        h = controllers.AddReview
+    case len(p) >= 2 && p[0] == "reviews" && p[1] != "" && r.Method == "GET":
+        log.Println("reviews - GET")
+        h = controllers.GetReview
+    case len(p) >= 2 && p[0] == "reviews" && p[1] != "" && r.Method == "PUT":
+        log.Println("reviews - PUT")
+        h = controllers.EditReview
+    case len(p) >= 2 && p[0] == "reviews" && p[1] != "" && r.Method == "DELETE":
+        h = controllers.DeleteReview
     default:
         http.NotFound(w,r)
         return
