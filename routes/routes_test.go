@@ -54,8 +54,6 @@ func TestRouterGetReview(t *testing.T) {
 }
 
 func TestRouterAddReview(t *testing.T) {
-
-
     postReview := ReviewInput{"Fooa", "Bazz", "/9j/4AAQSkZJRgABAQAAAAAAAAD/eIZnCh0wTiTTcy2rkadlo5ICAQCB//9k="}
 
     data, err := json.Marshal(postReview)
@@ -79,10 +77,7 @@ func TestRouterAddReview(t *testing.T) {
     json.Unmarshal(w.Body.Bytes(), &review)
 }
 
-
 func TestRouterEditReview(t *testing.T) {
-
-
     postReview := ReviewInput{"Edited", "Review", "/9j/4AAQSkZJRgABAQAAAAAAAAD/eIZnCh0wTiTTcy2rkadlo5ICAQCB//9k="}
 
     data, err := json.Marshal(postReview)
@@ -104,4 +99,23 @@ func TestRouterEditReview(t *testing.T) {
 
     var review models.Review
     json.Unmarshal(w.Body.Bytes(), &review)
+}
+
+func TestRouterDeleteReview(t *testing.T) {
+    req, err := http.NewRequest("DELETE", "http://url:1234/reviews/1", nil)
+    if err != nil {
+        t.Fatal(err)
+    }
+
+    w := httptest.NewRecorder()
+    routes.Router(w, req)
+
+    if status := w.Code; status != http.StatusOK {
+        t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
+    }
+
+    expected := `{"message":"Everything worked as expected"}`
+    if w.Body.String() != expected {
+        t.Errorf("handler returned unexpected body: got %v want %v", w.Body.String(), expected)
+    }
 }
