@@ -1,6 +1,7 @@
 package routes_test
 
 import (
+	"bytes"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
@@ -46,3 +47,33 @@ func TestRouterGetReview(t *testing.T) {
     json.Unmarshal(w.Body.Bytes(), &review)
 }
 
+func TestRouterAddReview(t *testing.T) {
+
+    type PostReview struct {
+        Name    string  `json:"name"`
+        Review  string  `json:"review"`
+        Image   string  `json:"image"`
+    }
+
+    postReview := PostReview{"Fooa", "Bazz", "/9j/4AAQSkZJRgABAQAAAAAAAAD/eIZnCh0wTiTTcy2rkadlo5ICAQCB//9k="}
+
+    data, err := json.Marshal(postReview)
+    if err != nil {
+        t.Fatal(err)
+    }
+
+    req, err := http.NewRequest("POST","http://url:1234/reviews", bytes.NewBuffer(data))
+    if err != nil {
+        t.Fatal(err)
+    }
+
+    w := httptest.NewRecorder()
+    routes.Router(w, req)
+
+    if status := w.Code; status != http.StatusCreated {
+        t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusCreated)
+    }
+
+    var review models.Review
+    json.Unmarshal(w.Body.Bytes(), &review)
+}
