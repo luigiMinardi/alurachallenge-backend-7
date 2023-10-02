@@ -10,6 +10,24 @@ import (
 	"github.com/luigiMinardi/alurachallenge-backend-7/routes"
 )
 
+func TestRouterGetReviewsHome(t *testing.T) {
+    req, err := http.NewRequest("GET", "http://url:1234/reviews-home", nil)
+    if err != nil {
+        t.Fatal(err)
+    }
+
+    w := httptest.NewRecorder()
+    routes.Router(w, req)
+
+    if status := w.Code; status != http.StatusOK {
+        t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
+    }
+
+
+    var review []models.Review
+    json.Unmarshal(w.Body.Bytes(), &review)
+}
+
 func TestRouterGetReview(t *testing.T) {
     req, err := http.NewRequest("GET", "http://url:1234/reviews/1", nil)
     if err != nil {
@@ -27,3 +45,4 @@ func TestRouterGetReview(t *testing.T) {
     var review models.Review
     json.Unmarshal(w.Body.Bytes(), &review)
 }
+
