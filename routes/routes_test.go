@@ -11,6 +11,12 @@ import (
 	"github.com/luigiMinardi/alurachallenge-backend-7/routes"
 )
 
+type ReviewInput struct {
+    Name    string  `json:"name"`
+    Review  string  `json:"review"`
+    Image   string  `json:"image"`
+}
+
 func TestRouterGetReviewsHome(t *testing.T) {
     req, err := http.NewRequest("GET", "http://url:1234/reviews-home", nil)
     if err != nil {
@@ -49,13 +55,8 @@ func TestRouterGetReview(t *testing.T) {
 
 func TestRouterAddReview(t *testing.T) {
 
-    type PostReview struct {
-        Name    string  `json:"name"`
-        Review  string  `json:"review"`
-        Image   string  `json:"image"`
-    }
 
-    postReview := PostReview{"Fooa", "Bazz", "/9j/4AAQSkZJRgABAQAAAAAAAAD/eIZnCh0wTiTTcy2rkadlo5ICAQCB//9k="}
+    postReview := ReviewInput{"Fooa", "Bazz", "/9j/4AAQSkZJRgABAQAAAAAAAAD/eIZnCh0wTiTTcy2rkadlo5ICAQCB//9k="}
 
     data, err := json.Marshal(postReview)
     if err != nil {
@@ -72,6 +73,33 @@ func TestRouterAddReview(t *testing.T) {
 
     if status := w.Code; status != http.StatusCreated {
         t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusCreated)
+    }
+
+    var review models.Review
+    json.Unmarshal(w.Body.Bytes(), &review)
+}
+
+
+func TestRouterEditReview(t *testing.T) {
+
+
+    postReview := ReviewInput{"Edited", "Review", "/9j/4AAQSkZJRgABAQAAAAAAAAD/eIZnCh0wTiTTcy2rkadlo5ICAQCB//9k="}
+
+    data, err := json.Marshal(postReview)
+    if err != nil {
+        t.Fatal(err)
+    }
+
+    req, err := http.NewRequest("PUT","http://url:1234/reviews/1", bytes.NewBuffer(data))
+    if err != nil {
+        t.Fatal(err)
+    }
+
+    w := httptest.NewRecorder()
+    routes.Router(w, req)
+
+    if status := w.Code; status != http.StatusOK {
+        t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
     }
 
     var review models.Review
