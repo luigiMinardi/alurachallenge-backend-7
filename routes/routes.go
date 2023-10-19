@@ -7,10 +7,12 @@ import (
 
 	"github.com/luigiMinardi/alurachallenge-backend-7/controllers"
 	"github.com/luigiMinardi/alurachallenge-backend-7/middleware"
+	"github.com/luigiMinardi/alurachallenge-backend-7/utils"
 )
 
 
 func HandleRequest() {
+    utils.DB_NAME = utils.DEFAULT_DB
     mux := http.NewServeMux()
     mux.HandleFunc("/", Router)
     log.Fatal(http.ListenAndServe(":8000", middleware.CORSMiddleware(middleware.ContentTypeMiddleware(mux))))
